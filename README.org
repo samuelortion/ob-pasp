@@ -10,7 +10,7 @@ parent(vader, luke).
 #+RESULTS:
 #+begin_example
 clingo version 5.6.2
-Reading from /tmp/babel-kEapMk/clingo-lto3lx
+Reading from /tmp/babel-kEapMk/clingo-4cyjcS
 Solving...
 Answer: 1
 child(luke,vader)
