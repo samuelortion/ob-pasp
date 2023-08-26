@@ -42,9 +42,11 @@
 ;; After that continue by creating a simple code block that looks like e.g.
 ;;
 ;; #+begin_src pasp
-
-;; test
-
+;;
+;; parent(vader, luke).
+;; child(C, P) :- parent(P, C).
+;; #show child/2.
+;;
 ;; #+end_src
 
 ;; Finally you can use `edebug' to instrumentalize
@@ -130,6 +132,8 @@ This function is called by `org-babel-execute-src-block'"
          ;(session (unless (string= value "none")
          ;          (org-babel-pasp-initiate-session
          ;           (cdr (assq :session processed-params)))))
+         ;; set the -n option to ask for more models
+         (models (cdr (assoc :n processed-params)))
          ;; variables assigned for use in the block
          (vars (org-babel--get-vars processed-params))
          (result-params (assq :result-params processed-params))
@@ -141,11 +145,13 @@ This function is called by `org-babel-execute-src-block'"
          (temp-file (org-babel-temp-file "clingo-"))
          (clingo (executable-find "clingo"))
          (cmd (concat (shell-quote-argument (expand-file-name clingo))
+                      (when models
+                        (concat " -n " models))
                         " " (org-babel-process-file-name temp-file))))
     ;; actually execute the source-code block either in a session or
     ;; possibly by dropping it to a temporary file and evaluating the
     ;; file.
-    ;; 
+    ;;
     ;; for session based evaluation the functions defined in
     ;; `org-babel-comint' will probably be helpful.
     ;;
