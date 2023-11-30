@@ -129,16 +129,16 @@ This function is called by `org-babel-execute-src-block'"
   (let* ((processed-params (org-babel-process-params params))
          ;; set the session if the value of the session keyword is not the
          ;; string `none'
-         ;(session (unless (string= value "none")
-         ;          (org-babel-pasp-initiate-session
-         ;           (cdr (assq :session processed-params)))))
+                                        ;(session (unless (string= value "none")
+                                        ;          (org-babel-pasp-initiate-session
+                                        ;           (cdr (assq :session processed-params)))))
          ;; set the -n option to ask for more models
          (models (cdr (assoc :n processed-params)))
          ;; variables assigned for use in the block
          (vars (org-babel--get-vars processed-params))
          (result-params (assq :result-params processed-params))
          ;; either OUTPUT or VALUE which should behave as described above
-         (result-type (assq :result-type processed-params))
+         (result-type "output"); (assq :result-type processed-params))
          ;; expand the body with `org-babel-expand-body:pasp'
          (full-body (org-babel-expand-body:pasp
                      body params processed-params))
@@ -146,8 +146,8 @@ This function is called by `org-babel-execute-src-block'"
          (clingo (executable-find "clingo"))
          (cmd (concat (shell-quote-argument (expand-file-name clingo))
                       (when models
-                        (concat " -n " models))
-                        " " (org-babel-process-file-name temp-file))))
+                        (concat " -n " (int-to-string models)))
+                      " " (org-babel-process-file-name temp-file))))
     ;; actually execute the source-code block either in a session or
     ;; possibly by dropping it to a temporary file and evaluating the
     ;; file.
@@ -165,7 +165,7 @@ This function is called by `org-babel-execute-src-block'"
 
     ;; ref. https://github.com/arnm/ob-mermaid
     (unless (file-executable-p clingo)
-      (error "Cannot find or execute %s, please check `clingo`" clingo))
+      (error "Cannot find or execute `clingo', please check it is installed and in PATH"))
     (with-temp-file temp-file (insert full-body))
     (message "%s" cmd)
     (org-babel-eval cmd "")

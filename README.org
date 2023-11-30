@@ -1,5 +1,5 @@
 * ob-pasp
-Org-Babel mode to execute Clingo Potassco code within Org-mode
+Org-Babel mode to execute Potassco Answer Set Programming code within Org-mode with =clingo=.
 
 #+begin_src pasp
 child(C, P) :- parent(P, C).
@@ -21,3 +21,25 @@ Calls        : 1
 Time         : 0.000s (Solving: 0.00s 1st Model: 0.00s Unsat: 0.00s)
 CPU Time     : 0.000s
 #+end_example
+
+** Installation
+
+The package is not (yet) available on MELPA, so the package should be installed from github directly.
+
+*** Dependencies
+
+To be able to use =ob-pasp= you will need to install =clingo= cli.
+
+
+*** Doomemacs
+
+In your =$DOOMDIR/package.el= file, you might want to set up the following:
+#+begin_src emacs-lisp
+(package! pasp-mode)    ;; Add syntax highlighting for Potassco ASP
+(package! ob-pasp
+  :recipe (:host github :repo "UncleSamulus/ob-pasp"))
+#+end_src
+
+
+** TODO Spacemacs
+** TODO =use-package= / =straight=
