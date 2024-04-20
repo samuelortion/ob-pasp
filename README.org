@@ -1,7 +1,7 @@
 * ob-pasp
 Org-Babel mode to execute Potassco Answer Set Programming code within Org-mode with =clingo=.
 
-#+begin_src pasp
+#+begin_src pasp :exports both
 child(C, P) :- parent(P, C).
 parent(vader, luke).
 #show child/2.
@@ -30,16 +30,20 @@ The package is not (yet) available on MELPA, so the package should be installed 
 
 To be able to use =ob-pasp= you will need to install =clingo= cli.
 
-
 *** Doomemacs
 
 In your =$DOOMDIR/package.el= file, you might want to set up the following:
 #+begin_src emacs-lisp
 (package! pasp-mode)    ;; Add syntax highlighting for Potassco ASP
 (package! ob-pasp
-  :recipe (:host github :repo "UncleSamulus/ob-pasp"))
+  :recipe (:host github :repo "samuelortion/ob-pasp"))
 #+end_src
 
+*** TODO Spacemacs :help-wanted:
 
-** TODO Spacemacs
-** TODO =use-package= / =straight=
+*** =use-package= with =straight=
+The following instructions should work, but I am not sure.
+#+begin_src emacs-lisp
+(use-package ob-pasp
+  :straight (ob-pasp :type git :host github :repo "samuelortion/ob-pasp"))
+#+end_src
